@@ -22,11 +22,16 @@ export async function addInscriptionIfNotExists(data) {
     range: `${SHEET_NAME}!A2:Z`,
   });
   const rows = response.data.values || [];
-  // Vérifier unicité nom + facebook
+  // Vérifier unicité nom + prénom + téléphone
   if (rows.some(row => {
     const nom = row[0] ? row[0].toLowerCase().trim() : '';
-    const facebook = row[7] ? row[7].toLowerCase().trim() : '';
-    return nom === data.nom.toLowerCase().trim() && facebook === data.facebook.toLowerCase().trim();
+    const prenom = row[1] ? row[1].toLowerCase().trim() : '';
+    const telephone = row[6] ? row[6].toLowerCase().trim() : '';
+    return (
+      nom === data.nom.toLowerCase().trim() &&
+      prenom === data.prenom.toLowerCase().trim() &&
+      telephone === data.telephone.toLowerCase().trim()
+    );
   })) {
     return 'exists';
   }
@@ -50,7 +55,7 @@ export async function addInscriptionIfNotExists(data) {
     data.statut,
     data.classe,
     data.profession,
-    data.aime,
+    data.reve,
     data.deteste,
     data.hobbies,
     'en attente',

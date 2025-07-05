@@ -18,21 +18,21 @@ app.post('/api/inscription', async (req, res) => {
     (statut === 'Etudiant' && !classe) ||
     (statut === 'Travailleur' && !profession)
   ) {
-    return res.status(400).json({ message: 'Tous les champs obligatoires doivent être remplis.' });
+    return res.status(400).json({ message: 'Fenoy avokoa azafady ireo saha rehetra tsy maintsy fenoina.' });
   }
   // Vérification du format de l'email s'il est renseigné
   if (email && !/^[^@\s]+@gmail\.com$/.test(email.trim())) {
-    return res.status(400).json({ message: "L'email doit être une adresse @gmail.com valide." });
+    return res.status(400).json({ message: 'Azafady, ampidiro mailaka @gmail.com manankery.' });
   }
   try {
     const result = await addInscriptionIfNotExists(req.body);
     if (result === 'exists') {
-      return res.status(409).json({ message: 'Vous avez déjà soumis une demande.' });
+      return res.status(409).json({ message: 'Efa nandefa fangatahana ianao.' });
     }
-    return res.status(201).json({ message: 'Votre demande a bien été envoyée et est en attente de validation.' });
+    return res.status(201).json({ message: 'Voaray soa aman-tsara ny fangatahanao ary miandry fanamarinana.' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: 'Erreur serveur.' });
+    return res.status(500).json({ message: 'Miala tsiny indrindra, misy olana kely.' });
   }
 });
 
