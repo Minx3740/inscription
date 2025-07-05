@@ -10,13 +10,14 @@ app.use(cors());
 app.use(bodyParser.json());
 // Route d'inscription
 app.post('/api/inscription', async (req, res) => {
-  const { nom, prenom, email, age, sex, adresse, telephone, soeurs, freres, rang, statut, classe, profession } = req.body;
+  const { nom, prenom, email, age, sex, adresse, telephone, soeurs, freres, rang, statut, classe, profession, niveau_etude, etude_professionnelle } = req.body;
   // Vérification des champs obligatoires
   if (
     !nom || !prenom || !age || !sex || !adresse || !telephone ||
     soeurs === undefined || freres === undefined || rang === undefined || !statut ||
-    (statut === 'Etudiant' && !classe) ||
-    (statut === 'Travailleur' && !profession)
+    (statut === 'Etudiant' && (!niveau_etude || (niveau_etude !== 'Préscolaire' && !classe))) ||
+    (statut === 'Travailleur' && !profession) ||
+    (statut === 'EtudeProfessionnelle' && !etude_professionnelle)
   ) {
     return res.status(400).json({ message: 'Fenoy avokoa azafady ireo saha rehetra tsy maintsy fenoina.' });
   }
